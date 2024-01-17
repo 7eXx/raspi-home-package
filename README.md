@@ -1,6 +1,12 @@
 # System Info
 A simple package to read some system information data
 
+## Pre-check
+This package depends from **_psutil_**:
+```shell
+pip install psutil~=5.9
+```
+
 ## Installation
 Install from ***testpypi***
 ```shell

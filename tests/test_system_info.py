@@ -55,4 +55,6 @@ class SystemInfoTest(TestCase):
         self.assertTrue("free" in serialized)
 
     def test_cpu_info(self):
+        print(self.cpu.serialize())
+
         self.assertEqual(self.cpu.unit, "°C")

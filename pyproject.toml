@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "system_info_texx"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="Marco Tessari", email="marco.tex@live.com" },
 ]
@@ -13,7 +13,6 @@ readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
     "psutil ~= 5.9",
-    "gpiozero ~= 1.6"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

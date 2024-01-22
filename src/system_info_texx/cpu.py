@@ -4,8 +4,10 @@ import platform
 import psutil
 import json
 
+from .base_sys_info import _BaseSysInfo
 
-class Cpu:
+
+class Cpu(_BaseSysInfo):
 
     __sensor_file = '/sys/class/thermal/thermal_zone0/temp'
 
@@ -25,4 +27,4 @@ class Cpu:
         self.unit = "°C"
 
     def serialize(self) -> str:
-        return json.dumps(self.__dict__, ensure_ascii=False)
+        return json.dumps(self.get_all_attributes(), ensure_ascii=False)

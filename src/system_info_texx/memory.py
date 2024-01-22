@@ -2,9 +2,10 @@ import json
 import psutil
 
 from .utils import Utils
+from .base_sys_info import _BaseSysInfo
 
 
-class Memory:
+class Memory(_BaseSysInfo):
     def __init__(self) -> None:
         memory = psutil.virtual_memory()
 
@@ -16,4 +17,4 @@ class Memory:
         self.free = Utils.convert_byte_to_megabyte(memory[4])
 
     def serialize(self) -> str:
-        return json.dumps(self.__dict__)
+        return json.dumps(self.get_all_attributes())

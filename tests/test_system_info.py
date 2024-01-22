@@ -1,60 +1,64 @@
-from unittest import TestCase
-
-from src.system_info_texx.cpu import Cpu
-from src.system_info_texx.disk import Disk
-from src.system_info_texx.memory import Memory
+import unittest
+from unittest.mock import Mock, patch
+from src.system_info_texx.system_info import SimpleSystemInfo, ExpandedSystemInfo, Cpu, Memory, Disk
 
 
-class SystemInfoTest(TestCase):
-
-    disk: Disk
-    memory: Memory
-    cpu: Cpu
-
+class TestSimpleSystemInfo(unittest.TestCase):
     def setUp(self):
-        self.disk = Disk()
-        self.memory = Memory()
-        self.cpu = Cpu()
+        # Create mock objects for Cpu, Memory, and Disk
+        self.mock_cpu = Mock(spec=Cpu)
+        self.mock_memory = Mock(spec=Memory)
+        self.mock_disk = Mock(spec=Disk)
 
-    def test_disk_info_serialization(self):
-        serialized = self.disk.serialize()
-        self.assertTrue("unit" in serialized)
-        self.assertTrue("total" in serialized)
-        self.assertTrue("used" in serialized)
-        self.assertTrue("free" in serialized)
-        self.assertTrue("percentage" in serialized)
+        # Create a SimpleSystemInfo instance with the mock objects
+        self.system_info = SimpleSystemInfo()
+        self.system_info.cpu = self.mock_cpu
+        self.system_info.memory = self.mock_memory
+        self.system_info.disk = self.mock_disk
 
-    def test_disk_info_default(self):
-        self.assertEqual(self.disk.unit, "GB")
+    def test_serialize(self):
+        # Set up the return values for the serialize methods of Cpu, Memory, and Disk
+        self.mock_cpu.serialize.return_value = '{"cpu_info": "mocked"}'
+        self.mock_memory.serialize.return_value = '{"memory_info": "mocked"}'
+        self.mock_disk.serialize.return_value = '{"disk_info": "mocked"}'
 
-    def test_disk_info_mb(self):
-        self.disk = Disk(unit="MB")
+        # Call the serialize method of SimpleSystemInfo
+        result = self.system_info.serialize()
 
-        self.assertEqual(self.disk.unit, "MB")
+        # Check if the result matches the expected JSON string
+        expected_result = '{"cpu": {"cpu_info": "mocked"}, "memory": {"memory_info": "mocked"}, "disk": {"disk_info": "mocked"}}'
+        self.assertEqual(result, expected_result)
 
-    def test_disk_info_kb(self):
-        self.disk = Disk(unit="KB")
+        # Check if the serialize methods of Cpu, Memory, and Disk were called
+        self.mock_cpu.serialize.assert_called_once()
+        self.mock_memory.serialize.assert_called_once()
+        self.mock_disk.serialize.assert_called_once()
 
-        self.assertEqual(self.disk.unit, "KB")
 
-    def test_disk_info_unknown(self):
-        self.disk = Disk(unit="unknown")
+class TestExpandedSystemInfo(unittest.TestCase):
 
-        self.assertEqual(self.disk.unit, "B")
+    def test_serialize(self):
+        # Set up values for the ExpandedSystemInfo instance
+        expanded_sys_info = ExpandedSystemInfo()
+        expanded_sys_info.cpu_temp = 42.0
+        expanded_sys_info.cpu_perc = 75.0
+        expanded_sys_info.tot_mem = 1024
+        expanded_sys_info.ava_mem = 512
+        expanded_sys_info.per_mem = 50.0
+        expanded_sys_info.use_mem = 512
+        expanded_sys_info.fre_mem = 512
+        expanded_sys_info.tot_disk = 2048
+        expanded_sys_info.use_disk = 1024
+        expanded_sys_info.fre_disk = 1024
+        expanded_sys_info.per_disk = 50.0
 
-    def test_memory_info(self):
-        self.assertEqual(self.memory.unit, "MB")
+        # Call the serialize method
+        result = expanded_sys_info.serialize()
 
-    def test_memory_serialization(self):
-        serialized = self.memory.serialize()
-        self.assertTrue("unit" in serialized)
-        self.assertTrue("total" in serialized)
-        self.assertTrue("available" in serialized)
-        self.assertTrue("percentage" in serialized)
-        self.assertTrue("used" in serialized)
-        self.assertTrue("free" in serialized)
+        # Check if the result matches the expected JSON string
+        expected_result = '{"cpu_temp": 42.0, "cpu_perc": 75.0, "tot_mem": 1024, "ava_mem": 512, "per_mem": 50.0, "use_mem": 512, "fre_mem": 512, "tot_disk": 2048, "use_disk": 1024, "fre_disk": 1024, "per_disk": 50.0}'
+        self.assertEqual(result, expected_result)
 
-    def test_cpu_info(self):
-        print(self.cpu.serialize())
 
-        self.assertEqual(self.cpu.unit, "°C")
+if __name__ == '__main__':
+    unittest.main()

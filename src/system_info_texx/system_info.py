@@ -11,6 +11,10 @@ class SystemInfo(ABC):
     def serialize(self) -> str:
         pass
 
+    @abstractmethod
+    def format_pretty(self) -> str:
+        pass
+
 
 class SimpleSystemInfo(SystemInfo):
     def __init__(self):
@@ -20,6 +24,15 @@ class SimpleSystemInfo(SystemInfo):
 
     def serialize(self) -> str:
         return f'{{"cpu": {self.cpu.serialize()}, "memory": {self.memory.serialize()}, "disk": {self.disk.serialize()}}}'
+
+    def format_pretty(self) -> str:
+        output = self.cpu.format_pretty()
+        output += "----------------------\n"
+        output += self.memory.format_pretty()
+        output += "----------------------\n"
+        output += self.disk.format_pretty()
+
+        return output
 
 
 class ExpandedSystemInfo(SystemInfo):
@@ -44,3 +57,23 @@ class ExpandedSystemInfo(SystemInfo):
 
     def serialize(self) -> str:
         return json.dumps(self.__dict__)
+
+    def format_pretty(self) -> str:
+        output = "CPU: \n"
+        output += "Temperature : " + str(self.cpu_temp) + " °C\n"
+        output += "Percentage : " + str(self.cpu_perc) + " %\n"
+        output += "----------------------\n"
+        output += "Memory: \n"
+        output += "Total : " + str(self.tot_mem) + " MB\n"
+        output += "Available : " + str(self.ava_mem) + " MB\n"
+        output += "Used : " + str(self.use_mem) + " MB\n"
+        output += "Free : " + str(self.fre_mem) + " MB\n"
+        output += "Percentage : " + str(self.per_mem) + " %\n"
+        output += "----------------------\n"
+        output += "Disk: \n"
+        output += "Total : " + str(self.tot_disk) + " GB\n"
+        output += "Used : " + str(self.use_disk) + " GB\n"
+        output += "Free : " + str(self.fre_disk) + " GB\n"
+        output += "Percentage : " + str(self.per_disk) + " %\n"
+
+        return output

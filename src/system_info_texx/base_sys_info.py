@@ -9,3 +9,7 @@ class _BaseSysInfo(ABC):
     @abstractmethod
     def serialize(self) -> str:
         pass
+
+    @abstractmethod
+    def format_pretty(self) -> str:
+        pass

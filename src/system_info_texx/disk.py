@@ -21,3 +21,12 @@ class Disk(_BaseSysInfo):
 
     def serialize(self) -> str:
         return json.dumps(self.get_all_attributes())
+
+    def format_pretty(self) -> str:
+        output = "Disk: \n"
+        output += "Total : " + str(self.total) + " " + self.unit + "\n"
+        output += "Used : " + str(self.used) + " " + self.unit + "\n"
+        output += "Free : " + str(self.free) + " " + self.unit + "\n"
+        output += "Percentage : " + str(self.percentage) + " %"
+
+        return output

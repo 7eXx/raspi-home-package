@@ -34,6 +34,11 @@ class TestSimpleSystemInfo(unittest.TestCase):
         self.mock_memory.serialize.assert_called_once()
         self.mock_disk.serialize.assert_called_once()
 
+    # TODO: make test for pretty format
+    def test_format_pretty(self):
+        sys_info = SimpleSystemInfo()
+        print(sys_info.format_pretty())
+
 
 class TestExpandedSystemInfo(unittest.TestCase):
 
@@ -58,6 +63,11 @@ class TestExpandedSystemInfo(unittest.TestCase):
         # Check if the result matches the expected JSON string
         expected_result = '{"cpu_temp": 42.0, "cpu_perc": 75.0, "tot_mem": 1024, "ava_mem": 512, "per_mem": 50.0, "use_mem": 512, "fre_mem": 512, "tot_disk": 2048, "use_disk": 1024, "fre_disk": 1024, "per_disk": 50.0}'
         self.assertEqual(result, expected_result)
+
+    # TODO: make test for pretty format
+    def test_format_pretty(self):
+        sys_info = ExpandedSystemInfo()
+        print(sys_info.format_pretty())
 
 
 if __name__ == '__main__':

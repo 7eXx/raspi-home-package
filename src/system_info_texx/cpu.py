@@ -28,3 +28,10 @@ class Cpu(_BaseSysInfo):
 
     def serialize(self) -> str:
         return json.dumps(self.get_all_attributes(), ensure_ascii=False)
+
+    def format_pretty(self) -> str:
+        output = "CPU : \n"
+        output += "Temperature : " + str(self.temperature) + " " + self.unit + "\n"
+        output += "Percentage : " + str(self.percentage) + " %\n"
+
+        return output

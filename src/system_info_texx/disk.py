@@ -2,9 +2,10 @@ import psutil
 import json
 
 from .utils import Utils
+from .base_sys_info import _BaseSysInfo
 
 
-class Disk:
+class Disk(_BaseSysInfo):
     def __init__(self, unit="GB") -> None:
         disk_usage = psutil.disk_usage("/")
 
@@ -19,4 +20,13 @@ class Disk:
         self.percentage = disk_usage[3]
 
     def serialize(self) -> str:
-        return json.dumps(self.__dict__)
+        return json.dumps(self.get_all_attributes())
+
+    def format_pretty(self) -> str:
+        output = "Disk: \n"
+        output += "Total : " + str(self.total) + " " + self.unit + "\n"
+        output += "Used : " + str(self.used) + " " + self.unit + "\n"
+        output += "Free : " + str(self.free) + " " + self.unit + "\n"
+        output += "Percentage : " + str(self.percentage) + " %"
+
+        return output

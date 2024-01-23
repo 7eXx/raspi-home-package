@@ -27,9 +27,9 @@ class SimpleSystemInfo(SystemInfo):
 
     def format_pretty(self) -> str:
         output = self.cpu.format_pretty()
-        output += "----------------------\n"
+        output += "--------------------------------------------\n"
         output += self.memory.format_pretty()
-        output += "----------------------\n"
+        output += "--------------------------------------------\n"
         output += self.disk.format_pretty()
 
         return output
@@ -65,14 +65,14 @@ class ExpandedSystemInfo(SystemInfo):
         output = "CPU: \n"
         output += "Temperature : " + str(self.cpu_temp) + " " + self.cpu_unit + "\n"
         output += "Percentage : " + str(self.cpu_perc) + " %\n"
-        output += "----------------------\n"
+        output += "--------------------------------------------\n"
         output += "Memory: \n"
         output += "Total : " + str(self.mem_tot) + " " + self.mem_uni + "\n"
         output += "Available : " + str(self.mem_ava) + " " + self.mem_uni + "\n"
         output += "Used : " + str(self.mem_use) + " " + self.mem_uni + "\n"
         output += "Free : " + str(self.mem_fre) + " " + self.mem_uni + "\n"
         output += "Percentage : " + str(self.mem_per) + " %\n"
-        output += "----------------------\n"
+        output += "--------------------------------------------\n"
         output += "Disk: \n"
         output += "Total : " + str(self.disk_tot) + " " + self.disk_uni + "\n"
         output += "Used : " + str(self.disk_use) + " " + self.disk_uni + "\n"

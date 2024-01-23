@@ -42,7 +42,11 @@ class TestSimpleSystemInfo(unittest.TestCase):
 
         formatted_result = self.system_info.format_pretty()
         # Add your assertion here based on the expected formatted result
-        expected_result = "CPU Details\n----------------------\nMemory Details\n----------------------\nDisk Details"
+        expected_result = ("CPU Details\n"
+                           "--------------------------------------------\n"
+                           "Memory Details\n"
+                           "--------------------------------------------\n"
+                           "Disk Details")
         self.assertEqual(formatted_result, expected_result)
 
 
@@ -83,14 +87,14 @@ class TestExpandedSystemInfo(unittest.TestCase):
         expected_result = ("CPU: \n"
                            "Temperature : 42.0 °C\n"
                            "Percentage : 75.0 %\n"
-                           "----------------------\n"
+                           "--------------------------------------------\n"
                            "Memory: \n"
                            "Total : 1024 MB\n"
                            "Available : 512 MB\n"
                            "Used : 512 MB\n"
                            "Free : 512 MB\n"
                            "Percentage : 50.0 %\n"
-                           "----------------------\n"
+                           "--------------------------------------------\n"
                            "Disk: \n"
                            "Total : 2048 GB\n"
                            "Used : 1024 GB\n"

@@ -43,37 +43,40 @@ class ExpandedSystemInfo(SystemInfo):
 
         self.cpu_temp = cpu.temperature
         self.cpu_perc = cpu.percentage
+        self.cpu_unit = cpu.unit
 
-        self.tot_mem = memory.total
-        self.ava_mem = memory.available
-        self.per_mem = memory.percentage
-        self.use_mem = memory.used
-        self.fre_mem = memory.free
+        self.mem_tot = memory.total
+        self.mem_ava = memory.available
+        self.mem_use = memory.used
+        self.mem_fre = memory.free
+        self.mem_uni = memory.unit
+        self.mem_per = memory.percentage
 
-        self.tot_disk = disk.total
-        self.use_disk = disk.used
-        self.fre_disk = disk.free
-        self.per_disk = disk.percentage
+        self.disk_tot = disk.total
+        self.disk_use = disk.used
+        self.disk_fre = disk.free
+        self.disk_uni = disk.unit
+        self.disk_per = disk.percentage
 
     def serialize(self) -> str:
-        return json.dumps(self.__dict__)
+        return json.dumps(self.__dict__, ensure_ascii=False)
 
     def format_pretty(self) -> str:
         output = "CPU: \n"
-        output += "Temperature : " + str(self.cpu_temp) + " °C\n"
+        output += "Temperature : " + str(self.cpu_temp) + " " + self.cpu_unit + "\n"
         output += "Percentage : " + str(self.cpu_perc) + " %\n"
         output += "----------------------\n"
         output += "Memory: \n"
-        output += "Total : " + str(self.tot_mem) + " MB\n"
-        output += "Available : " + str(self.ava_mem) + " MB\n"
-        output += "Used : " + str(self.use_mem) + " MB\n"
-        output += "Free : " + str(self.fre_mem) + " MB\n"
-        output += "Percentage : " + str(self.per_mem) + " %\n"
+        output += "Total : " + str(self.mem_tot) + " " + self.mem_uni + "\n"
+        output += "Available : " + str(self.mem_ava) + " " + self.mem_uni + "\n"
+        output += "Used : " + str(self.mem_use) + " " + self.mem_uni + "\n"
+        output += "Free : " + str(self.mem_fre) + " " + self.mem_uni + "\n"
+        output += "Percentage : " + str(self.mem_per) + " %\n"
         output += "----------------------\n"
         output += "Disk: \n"
-        output += "Total : " + str(self.tot_disk) + " GB\n"
-        output += "Used : " + str(self.use_disk) + " GB\n"
-        output += "Free : " + str(self.fre_disk) + " GB\n"
-        output += "Percentage : " + str(self.per_disk) + " %\n"
+        output += "Total : " + str(self.disk_tot) + " " + self.disk_uni + "\n"
+        output += "Used : " + str(self.disk_use) + " " + self.disk_uni + "\n"
+        output += "Free : " + str(self.disk_fre) + " " + self.disk_uni + "\n"
+        output += "Percentage : " + str(self.disk_per) + " %\n"
 
         return output

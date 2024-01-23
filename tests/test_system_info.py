@@ -36,38 +36,67 @@ class TestSimpleSystemInfo(unittest.TestCase):
 
     # TODO: make test for pretty format
     def test_format_pretty(self):
-        sys_info = SimpleSystemInfo()
-        print(sys_info.format_pretty())
+        self.mock_cpu.format_pretty.return_value = "CPU Details\n"
+        self.mock_memory.format_pretty.return_value = "Memory Details\n"
+        self.mock_disk.format_pretty.return_value = "Disk Details"
+
+        formatted_result = self.system_info.format_pretty()
+        # Add your assertion here based on the expected formatted result
+        expected_result = "CPU Details\n----------------------\nMemory Details\n----------------------\nDisk Details"
+        self.assertEqual(formatted_result, expected_result)
 
 
 class TestExpandedSystemInfo(unittest.TestCase):
 
-    def test_serialize(self):
-        # Set up values for the ExpandedSystemInfo instance
-        expanded_sys_info = ExpandedSystemInfo()
-        expanded_sys_info.cpu_temp = 42.0
-        expanded_sys_info.cpu_perc = 75.0
-        expanded_sys_info.tot_mem = 1024
-        expanded_sys_info.ava_mem = 512
-        expanded_sys_info.per_mem = 50.0
-        expanded_sys_info.use_mem = 512
-        expanded_sys_info.fre_mem = 512
-        expanded_sys_info.tot_disk = 2048
-        expanded_sys_info.use_disk = 1024
-        expanded_sys_info.fre_disk = 1024
-        expanded_sys_info.per_disk = 50.0
+    def setUp(self):
+        self.expanded_sys_info = ExpandedSystemInfo()
+        self.expanded_sys_info.cpu_temp = 42.0
+        self.expanded_sys_info.cpu_perc = 75.0
+        self.expanded_sys_info.cpu_unit = "°C"
+        self.expanded_sys_info.mem_tot = 1024
+        self.expanded_sys_info.mem_ava = 512
+        self.expanded_sys_info.mem_use = 512
+        self.expanded_sys_info.mem_fre = 512
+        self.expanded_sys_info.mem_uni = "MB"
+        self.expanded_sys_info.mem_per = 50.0
+        self.expanded_sys_info.disk_tot = 2048
+        self.expanded_sys_info.disk_use = 1024
+        self.expanded_sys_info.disk_fre = 1024
+        self.expanded_sys_info.disk_uni = "GB"
+        self.expanded_sys_info.disk_per = 50.0
 
+    def test_serialize(self):
         # Call the serialize method
-        result = expanded_sys_info.serialize()
+        result = self.expanded_sys_info.serialize()
 
         # Check if the result matches the expected JSON string
-        expected_result = '{"cpu_temp": 42.0, "cpu_perc": 75.0, "tot_mem": 1024, "ava_mem": 512, "per_mem": 50.0, "use_mem": 512, "fre_mem": 512, "tot_disk": 2048, "use_disk": 1024, "fre_disk": 1024, "per_disk": 50.0}'
+        expected_result = ('{"cpu_temp": 42.0, "cpu_perc": 75.0, "cpu_unit": "°C", '
+                           '"mem_tot": 1024, "mem_ava": 512, "mem_use": 512, "mem_fre": 512, "mem_uni": "MB", "mem_per": 50.0, '
+                           '"disk_tot": 2048, "disk_use": 1024, "disk_fre": 1024, "disk_uni": "GB", "disk_per": 50.0}')
         self.assertEqual(result, expected_result)
 
     # TODO: make test for pretty format
     def test_format_pretty(self):
-        sys_info = ExpandedSystemInfo()
-        print(sys_info.format_pretty())
+        formatted_result = self.expanded_sys_info.format_pretty()
+
+        # Add your assertion here based on the expected formatted result
+        expected_result = ("CPU: \n"
+                           "Temperature : 42.0 °C\n"
+                           "Percentage : 75.0 %\n"
+                           "----------------------\n"
+                           "Memory: \n"
+                           "Total : 1024 MB\n"
+                           "Available : 512 MB\n"
+                           "Used : 512 MB\n"
+                           "Free : 512 MB\n"
+                           "Percentage : 50.0 %\n"
+                           "----------------------\n"
+                           "Disk: \n"
+                           "Total : 2048 GB\n"
+                           "Used : 1024 GB\n"
+                           "Free : 1024 GB\n"
+                           "Percentage : 50.0 %\n")
+        self.assertEqual(formatted_result, expected_result)
 
 
 if __name__ == '__main__':

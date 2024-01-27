@@ -8,7 +8,7 @@ version = "0.0.8"
 authors = [
   { name="Marco Tessari", email="marco.tex@live.com" },
 ]
-description = "A simple system information package"
+description = "A simple raspi home automation package"
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
@@ -21,5 +21,5 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/7exx/system-info"
-Issues = "https://github.com/7exx/system-info/issues"
+Homepage = "https://github.com/7exx/raspi-home-package"
+Issues = "https://github.com/7exx/raspi-home-package/issues"

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from src.system_info_texx.disk import Disk
+from src.raspi_home_texx.sys_info.disk import Disk
 
 
 class TestDisk(unittest.TestCase):

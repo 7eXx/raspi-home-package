@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "system_info_texx"
+name = "raspi_home_texx"
 version = "0.0.8"
 authors = [
   { name="Marco Tessari", email="marco.tex@live.com" },

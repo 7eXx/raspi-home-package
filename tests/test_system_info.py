@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 from src.system_info_texx.system_info import SimpleSystemInfo, ExpandedSystemInfo, Cpu, Memory, Disk
 
 

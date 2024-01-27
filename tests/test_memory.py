@@ -1,8 +1,6 @@
 import unittest
-from unittest.mock import Mock, patch
-import json
-import psutil
-from src.system_info_texx.memory import Memory, Utils
+from unittest.mock import patch
+from src.system_info_texx.memory import Memory
 
 
 class TestMemory(unittest.TestCase):

@@ -2,7 +2,7 @@ import time
 
 from abc import ABC, abstractmethod
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from src.raspi_home_texx.system_info import SystemInfo
+from .system_info import SystemInfo
 
 
 class Automation(ABC):

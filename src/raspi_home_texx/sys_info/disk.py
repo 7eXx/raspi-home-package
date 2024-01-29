@@ -1,7 +1,7 @@
 import psutil
 import json
 
-from .utils import Utils
+from ..utils import Utils
 from .base_sys_info import _BaseSysInfo
 
 

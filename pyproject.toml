@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "raspi_home_texx"
-version = "0.0.8"
+version = "0.0.9"
 authors = [
   { name="Marco Tessari", email="marco.tex@live.com" },
 ]

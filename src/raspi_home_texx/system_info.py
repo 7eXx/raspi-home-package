@@ -1,9 +1,9 @@
 import json
 from abc import ABC, abstractmethod
 
-from .cpu import Cpu
-from .disk import Disk
-from .memory import Memory
+from src.raspi_home_texx.sys_info.cpu import Cpu
+from src.raspi_home_texx.sys_info.disk import Disk
+from src.raspi_home_texx.sys_info.memory import Memory
 
 
 class SystemInfo(ABC):

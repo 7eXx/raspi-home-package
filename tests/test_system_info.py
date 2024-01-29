@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from src.raspi_home_texx.sys_info.system_info import SimpleSystemInfo, ExpandedSystemInfo, Cpu, Memory, Disk
+from src.raspi_home_texx.system_info import SimpleSystemInfo, ExpandedSystemInfo, Cpu, Memory, Disk
 
 
 class TestSimpleSystemInfo(unittest.TestCase):

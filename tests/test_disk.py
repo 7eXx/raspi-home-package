@@ -1,8 +1,6 @@
 import unittest
-from unittest.mock import Mock, patch
-import psutil
-import json
-from src.system_info_texx.disk import Disk, Utils
+from unittest.mock import patch
+from src.raspi_home_texx.sys_info.disk import Disk
 
 
 class TestDisk(unittest.TestCase):

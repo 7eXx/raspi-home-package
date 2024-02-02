@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, Mock
 
-from src.system_info_texx.cpu import Cpu
+from src.raspi_home_texx.sys_info.cpu import Cpu
 
 
 class TestCpu(unittest.TestCase):

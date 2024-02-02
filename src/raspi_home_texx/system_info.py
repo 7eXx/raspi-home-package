@@ -1,9 +1,9 @@
 import json
 from abc import ABC, abstractmethod
 
-from .cpu import Cpu
-from .disk import Disk
-from .memory import Memory
+from .sys_info.cpu import Cpu
+from .sys_info.disk import Disk
+from .sys_info.memory import Memory
 
 
 class SystemInfo(ABC):

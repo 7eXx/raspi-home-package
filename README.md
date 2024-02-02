@@ -10,7 +10,7 @@ pip install psutil~=5.9
 ## Installation
 Install from ***testpypi***
 ```shell
-pip install -i https://test.pypi.org/simple/ system_info_texx
+pip install -i https://test.pypi.org/simple/ raspi_home_texx
 ```
 Install from official **PyPi**
 ```

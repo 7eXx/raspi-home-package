@@ -1,2 +1,4 @@
 psutil~=5.9
 gpiozero~=1.6
+python-telegram-bot~=13.7
+emoji~=1.6.3

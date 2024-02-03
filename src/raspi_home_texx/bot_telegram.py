@@ -4,6 +4,8 @@ from typing import List
 from . import create_logger
 from .automation import Automation
 from .bot.chat_handler import ChatHandler
+from .bot.chat_filter import ChatFilter
+from .bot.command import CommandCallback, Command
 from telegram import Bot
 from telegram.error import BadRequest
 from telegram.ext import Updater, CommandHandler
@@ -66,7 +68,7 @@ class BotTelegram:
         ]
 
     def __register_handler(self, command: str, callback):
-        chat_filter = HomeChatFilter(self.__list_id)
+        chat_filter = ChatFilter(self.__list_id)
         self.__dispatcher.add_handler(CommandHandler(command=command, callback=callback, filters=chat_filter))
 
     def send_message_to_list(self, msg: str):

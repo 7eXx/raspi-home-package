@@ -57,5 +57,5 @@ class ChatHandler(ABC):
     def gate_toggle(self, update: Update, context: CallbackContext):
         pass
 
-    def stop_gate(self, update: Update, context: CallbackContext):
+    def gate_stop(self, update: Update, context: CallbackContext):
         pass

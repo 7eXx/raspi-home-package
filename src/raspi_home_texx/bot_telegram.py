@@ -1,7 +1,7 @@
 import emoji
 from typing import List
 
-from . import create_logger
+from . import get_console_logger, file_logger
 from .automation import Automation
 from .bot.chat_handler import ChatHandler
 from .bot.chat_filter import ChatFilter
@@ -24,7 +24,7 @@ class BotTelegram:
     __commands = None
 
     def __init__(self, token: str, name: str, list_id: List[int], automation: Automation):
-        self.__logger = create_logger(self.__class__.__name__)
+        self.__logger = get_console_logger(self.__class__.__name__)
         self.__automation = automation
         self.__automation.bind_alarm_to(self.__send_alarm_state)
         # commands to bind
@@ -80,10 +80,10 @@ class BotTelegram:
                 self.__bot.send_message(chat_id=chat_id, text=msg)
             except BadRequest as err:
                 self.__logger.exception("error on send message: " + err.__str__())
-                DiskLogger.write("Error on send message to: " + str(chat_id))
+                file_logger.write("Error on send message to: " + str(chat_id))
             except Exception as err:
                 self.__logger.exception("errore invio telegram: " + err.__str__())
-                DiskLogger.write("errore di invio telegram")
+                file_logger.write("errore di invio telegram")
 
     def __send_alarm_state(self, is_alarm_ringing: bool):
         if is_alarm_ringing:

@@ -1,5 +1,9 @@
 import logging
 from functools import wraps
+from .file_logger import FileLogger, __FileLoggerImpl
+
+
+file_logger: FileLogger = __FileLoggerImpl()
 
 
 def singleton(orig_cls):
@@ -18,7 +22,7 @@ def singleton(orig_cls):
     return orig_cls
 
 
-def create_logger(logger_name, level=logging.DEBUG):
+def get_console_logger(logger_name, level=logging.DEBUG) -> logging.Logger:
     # Create a custom logger
     logger = logging.getLogger(logger_name)
     logger.setLevel(level)
@@ -32,4 +36,3 @@ def create_logger(logger_name, level=logging.DEBUG):
     logger.addHandler(console_handler)
 
     return logger
-

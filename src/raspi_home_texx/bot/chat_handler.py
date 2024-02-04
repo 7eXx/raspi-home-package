@@ -4,6 +4,7 @@ from ..automation import Automation
 from telegram import Update
 from telegram.ext import CallbackContext
 
+
 class ChatHandler(ABC):
 
     def __init__(self, automation: Automation):

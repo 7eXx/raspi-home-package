@@ -5,7 +5,7 @@ from . import create_logger
 from .automation import Automation
 from .bot.chat_handler import ChatHandler
 from .bot.chat_filter import ChatFilter
-from .bot.command import CommandCallback, Command
+from .bot.commands import CommandCallback, Commands
 from telegram import Bot
 from telegram.error import BadRequest
 from telegram.ext import Updater, CommandHandler
@@ -21,16 +21,19 @@ class BotTelegram:
     __chat_handler = None
 
     __automation = None
+    __commands = None
 
-    def __init__(self, bot_token, list_id: List[int], automation: Automation):
+    def __init__(self, token: str, name: str, list_id: List[int], automation: Automation):
         self.__logger = create_logger(self.__class__.__name__)
         self.__automation = automation
         self.__automation.bind_alarm_to(self.__send_alarm_state)
+        # commands to bind
+        self.__commands = Commands(name)
         # define list of all ids
         self.__list_id = list_id
         # create the bot
-        self.__bot = Bot(token=bot_token)
-        self.__updater = Updater(token=bot_token)
+        self.__bot = Bot(token=token)
+        self.__updater = Updater(token=token)
         # create the handler object
         self.__chat_handler = ChatHandler(self.__automation)
         # registers all handlers and filters
@@ -41,30 +44,30 @@ class BotTelegram:
     def __register_handlers(self):
         self.__dispatcher = self.__updater.dispatcher
 
-        callback_list = self.__retrieve_callback_list()
+        callback_commands = self.__retrieve_callback_commands()
         # register all callbacks
-        for callback in callback_list:
-            self.__register_handler(callback.command, callback.callback)
+        for command in callback_commands:
+            self.__register_handler(command.command, command.callback)
 
-    def __retrieve_callback_list(self):
+    def __retrieve_callback_commands(self):
         return [
-            CommandCallback(Command.CIAO, self.__chat_handler.ciao),
-            CommandCallback(Command.START, self.__chat_handler.start),
-            CommandCallback(Command.HELP, self.__chat_handler.help),
-            CommandCallback(Command.UPTIME, self.__chat_handler.uptime),
-            CommandCallback(Command.TEMPERATURE, self.__chat_handler.temperature_cpu),
-            CommandCallback(Command.SYSTEM_INFO, self.__chat_handler.system_info),
-            CommandCallback(Command.SEND_LOG, self.__chat_handler.send_log),
-            CommandCallback(Command.CLEAR_LOG, self.__chat_handler.clear_log),
-            CommandCallback(Command.REBOOT, self.__chat_handler.reboot),
-            CommandCallback(Command.UPDATE_UPGRADE, self.__chat_handler.update_upgrade),
-            CommandCallback(Command.ECU_CHECK, self.__chat_handler.ecu_check),
-            CommandCallback(Command.ALARM_CHECK, self.__chat_handler.alarm_check),
-            CommandCallback(Command.ECU_TOGGLE, self.__chat_handler.ecu_toggle),
-            CommandCallback(Command.ANTI_PANIC, self.__chat_handler.anti_panic),
-            CommandCallback(Command.GATE_CHECK, self.__chat_handler.gate_check),
-            CommandCallback(Command.GATE_TOGGLE, self.__chat_handler.gate_toggle),
-            CommandCallback(Command.GATE_STOP, self.__chat_handler.gate_stop),
+            CommandCallback(self.__commands.CIAO, self.__chat_handler.ciao),
+            CommandCallback(self.__commands.START, self.__chat_handler.start),
+            CommandCallback(self.__commands.HELP, self.__chat_handler.help),
+            CommandCallback(self.__commands.UPTIME, self.__chat_handler.uptime),
+            CommandCallback(self.__commands.TEMPERATURE, self.__chat_handler.temperature_cpu),
+            CommandCallback(self.__commands.SYSTEM_INFO, self.__chat_handler.system_info),
+            CommandCallback(self.__commands.SEND_LOG, self.__chat_handler.send_log),
+            CommandCallback(self.__commands.CLEAR_LOG, self.__chat_handler.clear_log),
+            CommandCallback(self.__commands.REBOOT, self.__chat_handler.reboot),
+            CommandCallback(self.__commands.UPDATE_UPGRADE, self.__chat_handler.update_upgrade),
+            CommandCallback(self.__commands.ECU_CHECK, self.__chat_handler.ecu_check),
+            CommandCallback(self.__commands.ALARM_CHECK, self.__chat_handler.alarm_check),
+            CommandCallback(self.__commands.ECU_TOGGLE, self.__chat_handler.ecu_toggle),
+            CommandCallback(self.__commands.ANTI_PANIC, self.__chat_handler.anti_panic),
+            CommandCallback(self.__commands.GATE_CHECK, self.__chat_handler.gate_check),
+            CommandCallback(self.__commands.GATE_TOGGLE, self.__chat_handler.gate_toggle),
+            CommandCallback(self.__commands.GATE_STOP, self.__chat_handler.gate_stop),
         ]
 
     def __register_handler(self, command: str, callback):

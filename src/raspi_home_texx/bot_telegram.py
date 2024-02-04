@@ -35,7 +35,7 @@ class BotTelegram:
         self.__bot = Bot(token=token)
         self.__updater = Updater(token=token)
         # create the handler object
-        self.__chat_handler = ChatHandler(self.__automation)
+        self.__chat_handler = ChatHandler(self.__commands, self.__automation)
         # registers all handlers and filters
         self.__register_handlers()
 

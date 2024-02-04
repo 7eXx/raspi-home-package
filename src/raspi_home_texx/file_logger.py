@@ -34,6 +34,9 @@ class FileLogger(ABC):
     def set_file_path(self, path: str):
         self._file_path = path
 
+    def get_file_path(self) -> str:
+        return self._file_path
+
 
 class __FileLoggerImpl(FileLogger):
 

@@ -10,11 +10,11 @@ python -m unitest discover tests/
 ## Setup
 Ensure you have general installed ***build***
 ```shell
-python3 -m build
+python3 -m pip install --upgrade build
 ```
 And ***twine*** to publish a new version
 ```shell
-python3 -m twine
+python3 -m pip install --upgrade twine
 ```
 Create a ***.pypirc*** file in your home with account creadentials
 ```editorconfig

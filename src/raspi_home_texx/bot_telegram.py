@@ -105,15 +105,19 @@ class AbstractBotTelegramBuilder(ABC):
 
     def set_list_id(self, list_id: List[int]):
         self._list_id = list_id
+        return self
 
     def set_token(self, token: str):
         self._token = token
+        return self
 
     def set_name(self, name: str):
         self._name = name
+        return self
 
     def set_automation(self, automation: Automation):
         self._automation = automation
+        return self
 
     def build(self) -> _BotTelegram:
         commands = self.create_commands(self._name)

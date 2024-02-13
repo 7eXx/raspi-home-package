@@ -38,18 +38,6 @@ class ChatHandler:
         out_mess = subprocess.getoutput("uptime")
         context.bot.send_message(chat_id=update.effective_chat.id, text=out_mess)
 
-    def temperature_cpu(self, update: Update, context: CallbackContext):
-        self._logger.info('ti dico la temperatura')
-        temperature, unit = self._automation.temperature()
-        str_temperature = str(temperature) + " " + unit
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=(emoji.emojize('temperatura :warning:: ', use_aliases=True)) + str_temperature)
-
-    def system_info(self, update: Update, context: CallbackContext):
-        self._logger.info('Ti dico le informazioni di sistema')
-        pretty_sys_info = self._automation.system_info().format_pretty()
-        context.bot.send_message(chat_id=update.effective_chat.id, text=pretty_sys_info)
-
     def send_log(self, update: Update, context: CallbackContext):
         self._logger.info('invio file di log')
         context.bot.send_message(chat_id=update.effective_chat.id,
@@ -89,6 +77,18 @@ class ChatHandler:
         subprocess.call("sudo apt-get autoremove -y", shell=True)
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Aggiornamento concluso')
+
+    def temperature_cpu(self, update: Update, context: CallbackContext):
+        self._logger.info('ti dico la temperatura')
+        temperature, unit = self._automation.temperature()
+        str_temperature = str(temperature) + " " + unit
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=(emoji.emojize('temperatura :warning:: ', use_aliases=True)) + str_temperature)
+
+    def system_info(self, update: Update, context: CallbackContext):
+        self._logger.info('Ti dico le informazioni di sistema')
+        pretty_sys_info = self._automation.system_info().format_pretty()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=pretty_sys_info)
 
     def ecu_check(self, update: Update, context: CallbackContext):
         self._logger.info("verifico lo stato della centralina")

@@ -6,7 +6,7 @@ class CommandCallback:
 
     def __init__(self, command: str, callback):
         self.command = command
-        self.callback = callback
+        self. callback = callback
 
 
 class Commands:
@@ -14,12 +14,12 @@ class Commands:
     START = "start"
     HELP = "help"
     UPTIME = "uptime"
-    TEMPERATURE = "temperature"
-    SYSTEM_INFO = "system_info"
     SEND_LOG = "send_log"
     CLEAR_LOG = "clear_log"
     REBOOT = "reboot"
     UPDATE_UPGRADE = "update_upgrade"
+    TEMPERATURE = "temperature"
+    SYSTEM_INFO = "system_info"
     ECU_CHECK = "ecu_check"
     ALARM_CHECK = "alarm_check"
     ECU_TOGGLE = "ecu_toggle"
@@ -33,12 +33,12 @@ class Commands:
         START: "avvia il bot e lista comandi",
         HELP: "lista dei comandi",
         UPTIME: "tempo totale di avvio",
-        TEMPERATURE: "monitor temperatura",
-        SYSTEM_INFO: "informazioni di sistema",
         SEND_LOG: "invia il log degli errori/allarmi",
         CLEAR_LOG: "elimina e pulisci il file log",
         REBOOT: "riavvia il bot allarme",
         UPDATE_UPGRADE: "aggiorna il raspi",
+        TEMPERATURE: "monitor temperatura",
+        SYSTEM_INFO: "informazioni di sistema",
         ECU_CHECK: "visualizza lo stato della centralina",
         ALARM_CHECK: "verifica se allarme e' scattato",
         ECU_TOGGLE: "cambia lo stato della centralina",

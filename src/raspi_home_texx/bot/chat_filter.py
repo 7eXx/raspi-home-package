@@ -12,7 +12,7 @@ class ChatFilter(MessageFilter):
     __list_id = None
 
     def __init__(self, list_id: List[int]):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.__logger = get_console_logger(self.__class__.__name__)
         self.__list_id = list_id
 

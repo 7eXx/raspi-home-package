@@ -145,7 +145,7 @@ class AbstractBotTelegramBuilder(ABC):
         return bot
 
     @abstractmethod
-    def create_commands(self, name) -> Commands:
+    def create_commands(self, name: str) -> Commands:
         pass
 
     @abstractmethod

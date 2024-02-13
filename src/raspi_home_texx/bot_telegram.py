@@ -13,13 +13,23 @@ from telegram.error import BadRequest
 from telegram.ext import Updater, CommandHandler
 
 
-class _BotTelegram:
+class BotTelegram(ABC):
+
     _logger = None
 
-    _list_id = None
-    _bot = None
-    _updater = None
-    _dispatcher = None
+    def __init__(self, logger):
+        self._logger = logger
+
+    @abstractmethod
+    def send_message_to_list(self, msg: str):
+        pass
+
+
+class _BotTelegram(BotTelegram):
+
+    __list_id = None
+    __bot = None
+    __updater = None
 
     _automation = None
     _commands = None
@@ -27,12 +37,12 @@ class _BotTelegram:
     _chat_filter = None
 
     def __init__(self, token: str, list_id: List[int]):
-        self._logger = get_console_logger(self.__class__.__name__)
+        super().__init__(get_console_logger(self.__class__.__name__))
         # define list of all ids
-        self._list_id = list_id
+        self.__list_id = list_id
         # create the bot
-        self._bot = Bot(token=token)
-        self._updater = Updater(token=token)
+        self.__bot = Bot(token=token)
+        self.__updater = Updater(token=token)
 
     def set_automation_and_bind_alarm(self, automation: Automation):
         self._automation = automation
@@ -42,17 +52,17 @@ class _BotTelegram:
         # registers all handlers and filters
         self.__register_handlers()
         # start polling
-        self._updater.start_polling()
+        self.__updater.start_polling()
 
     def __register_handlers(self):
-        self._dispatcher = self._updater.dispatcher
+        dispatcher = self.__updater.dispatcher
 
         callback_commands = self.__retrieve_callback_commands()
         # register all callbacks
         for command in callback_commands:
             command_handler = CommandHandler(
                 command=command.command, callback=command.callback, filters=self._chat_filter)
-            self._dispatcher.add_handler(command_handler)
+            dispatcher.add_handler(command_handler)
 
     def __retrieve_callback_commands(self):
         return [
@@ -76,9 +86,9 @@ class _BotTelegram:
         ]
 
     def send_message_to_list(self, msg: str):
-        for chat_id in self._list_id:
+        for chat_id in self.__list_id:
             try:
-                self._bot.send_message(chat_id=chat_id, text=msg)
+                self.__bot.send_message(chat_id=chat_id, text=msg)
             except BadRequest as err:
                 self._logger.exception("error on send message: " + err.__str__())
                 file_logger.write("Error on send message to: " + str(chat_id))

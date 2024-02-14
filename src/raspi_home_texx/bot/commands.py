@@ -1,10 +1,11 @@
+from typing import Callable, Dict
 
 
 class CommandCallback:
     command: str = None
-    callback = None
+    callback: Callable = None
 
-    def __init__(self, command: str, callback):
+    def __init__(self, command: str, callback: Callable):
         self.command = command
         self. callback = callback
 
@@ -13,11 +14,10 @@ class Commands:
     CIAO = "ciao"
     START = "start"
     HELP = "help"
+    REBOOT = "reboot"
     UPTIME = "uptime"
     SEND_LOG = "send_log"
     CLEAR_LOG = "clear_log"
-    REBOOT = "reboot"
-    UPDATE_UPGRADE = "update_upgrade"
     TEMPERATURE = "temperature"
     SYSTEM_INFO = "system_info"
     ECU_CHECK = "ecu_check"
@@ -28,54 +28,45 @@ class Commands:
     GATE_TOGGLE = "gate_toggle"
     GATE_STOP = "gate_stop"
 
-    __descriptions = {
-        CIAO: "saluta il bot",
-        START: "avvia il bot e lista comandi",
-        HELP: "lista dei comandi",
-        UPTIME: "tempo totale di avvio",
-        SEND_LOG: "invia il log degli errori/allarmi",
-        CLEAR_LOG: "elimina e pulisci il file log",
-        REBOOT: "riavvia il bot allarme",
-        UPDATE_UPGRADE: "aggiorna il raspi",
-        TEMPERATURE: "monitor temperatura",
-        SYSTEM_INFO: "informazioni di sistema",
-        ECU_CHECK: "visualizza lo stato della centralina",
-        ALARM_CHECK: "verifica se allarme e' scattato",
-        ECU_TOGGLE: "cambia lo stato della centralina",
-        ANTI_PANIC: "attiva la funzione antipanico della centralina",
-        GATE_CHECK: "verifica lo stato del cancello",
-        GATE_TOGGLE: "funzione apertura/chiusura del cancello",
-        GATE_STOP: "blocca il cancello"
-    }
+    _descriptions: Dict[str, str] = {}
 
     def __init__(self, bot_name: str):
         self.__bot_name = bot_name
+        self._descriptions = {
+            self.CIAO: "saluta il bot",
+            self.START: "avvia il bot e lista comandi",
+            self.HELP: "lista dei comandi",
+            self.REBOOT: "riavvia il bot allarme",
+            self.UPTIME: "tempo totale di avvio",
+            self.SEND_LOG: "invia il log degli errori/allarmi",
+            self.CLEAR_LOG: "elimina e pulisci il file log",
+            self.TEMPERATURE: "monitor temperatura",
+            self.SYSTEM_INFO: "informazioni di sistema",
+            self.ECU_CHECK: "visualizza lo stato della centralina",
+            self.ALARM_CHECK: "verifica se allarme e' scattato",
+            self.ECU_TOGGLE: "cambia lo stato della centralina",
+            self.ANTI_PANIC: "attiva la funzione antipanico della centralina",
+            self.GATE_CHECK: "verifica lo stato del cancello",
+            self.GATE_TOGGLE: "funzione apertura/chiusura del cancello",
+            self.GATE_STOP: "blocca il cancello",
+        }
+
+    def _add_command(self, command: str, description: str):
+        self._descriptions[command] = description
 
     def get_command_list(self) -> str:
         str_list = ''
-        for key, value in list(self.__descriptions.items()):
+        for key, value in list(self._descriptions.items()):
             str_list += key + " - " + value + "\n"
 
         return str_list
 
     def is_command_in_list(self, command):
-        return self.check_command_equality(command, self.CIAO) or \
-            self.check_command_equality(command, self.START) or \
-            self.check_command_equality(command, self.HELP) or \
-            self.check_command_equality(command, self.UPTIME) or \
-            self.check_command_equality(command, self.TEMPERATURE) or \
-            self.check_command_equality(command, self.SYSTEM_INFO) or \
-            self.check_command_equality(command, self.SEND_LOG) or \
-            self.check_command_equality(command, self.CLEAR_LOG) or \
-            self.check_command_equality(command, self.REBOOT) or \
-            self.check_command_equality(command, self.UPDATE_UPGRADE) or \
-            self.check_command_equality(command, self.ECU_CHECK) or \
-            self.check_command_equality(command, self.ALARM_CHECK) or \
-            self.check_command_equality(command, self.ECU_TOGGLE) or \
-            self.check_command_equality(command, self.ANTI_PANIC) or \
-            self.check_command_equality(command, self.GATE_CHECK) or \
-            self.check_command_equality(command, self.GATE_TOGGLE) or \
-            self.check_command_equality(command, self.GATE_STOP)
+        for key, value in list(self._descriptions.items()):
+            if self.check_command_equality(command, key):
+                return True
+
+        return False
 
     def check_command_equality(self, command_rcv, command_name):
         return command_rcv == command_name or command_rcv == self.__full_command_name(command_name)

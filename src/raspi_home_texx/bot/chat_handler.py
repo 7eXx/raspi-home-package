@@ -33,6 +33,13 @@ class ChatHandler:
         self._logger.info("lista comandi per help")
         context.bot.send_message(chat_id=update.effective_chat.id, text=self._commands.get_command_list())
 
+    def reboot(self, update: Update, context: CallbackContext):
+        self._logger.info('sto per riavviare')
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=emoji.emojize('sto riavviando :zzz:', use_aliases=True))
+        time.sleep(5)
+        subprocess.call("sudo reboot", shell=True)
+
     def uptime(self, update: Update, context: CallbackContext):
         self._logger.info("informazioni uptime")
         out_mess = subprocess.getoutput("uptime")
@@ -56,27 +63,6 @@ class ChatHandler:
         file_logger.delete_if_log_exists()
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=emoji.emojize("File log eliminato :wrench:", use_aliases=True))
-
-    def reboot(self, update: Update, context: CallbackContext):
-        self._logger.info('sto per riavviare')
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=emoji.emojize('sto riavviando :zzz:', use_aliases=True))
-        time.sleep(5)
-        subprocess.call("sudo reboot", shell=True)
-
-    def update_upgrade(self, update: Update, context: CallbackContext):
-        self._logger.info("sto per aggiornare il sistema")
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Sto aggiornando le dipendenze')
-        subprocess.call("sudo apt-get update", shell=True)
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Sto aggiornando i pacchetti')
-        subprocess.call("sudo apt-get upgrade -y", shell=True)
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Sto rimuovendo i pacchetti inutilizzati')
-        subprocess.call("sudo apt-get autoremove -y", shell=True)
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Aggiornamento concluso')
 
     def temperature_cpu(self, update: Update, context: CallbackContext):
         self._logger.info('ti dico la temperatura')

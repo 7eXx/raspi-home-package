@@ -33,22 +33,17 @@ class ChatHandler:
         self._logger.info("lista comandi per help")
         context.bot.send_message(chat_id=update.effective_chat.id, text=self._commands.get_command_list())
 
+    def reboot(self, update: Update, context: CallbackContext):
+        self._logger.info('sto per riavviare')
+        context.bot.send_message(chat_id=update.effective_chat.id,
+                                 text=emoji.emojize('sto riavviando :zzz:', use_aliases=True))
+        time.sleep(5)
+        subprocess.call("sudo reboot", shell=True)
+
     def uptime(self, update: Update, context: CallbackContext):
         self._logger.info("informazioni uptime")
         out_mess = subprocess.getoutput("uptime")
         context.bot.send_message(chat_id=update.effective_chat.id, text=out_mess)
-
-    def temperature_cpu(self, update: Update, context: CallbackContext):
-        self._logger.info('ti dico la temperatura')
-        temperature, unit = self._automation.temperature()
-        str_temperature = str(temperature) + " " + unit
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=(emoji.emojize('temperatura :warning:: ', use_aliases=True)) + str_temperature)
-
-    def system_info(self, update: Update, context: CallbackContext):
-        self._logger.info('Ti dico le informazioni di sistema')
-        pretty_sys_info = self._automation.system_info().format_pretty()
-        context.bot.send_message(chat_id=update.effective_chat.id, text=pretty_sys_info)
 
     def send_log(self, update: Update, context: CallbackContext):
         self._logger.info('invio file di log')
@@ -69,26 +64,17 @@ class ChatHandler:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=emoji.emojize("File log eliminato :wrench:", use_aliases=True))
 
-    def reboot(self, update: Update, context: CallbackContext):
-        self._logger.info('sto per riavviare')
+    def temperature_cpu(self, update: Update, context: CallbackContext):
+        self._logger.info('ti dico la temperatura')
+        temperature, unit = self._automation.temperature()
+        str_temperature = str(temperature) + " " + unit
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=emoji.emojize('sto riavviando :zzz:', use_aliases=True))
-        time.sleep(5)
-        subprocess.call("sudo reboot", shell=True)
+                                 text=(emoji.emojize('temperatura :warning:: ', use_aliases=True)) + str_temperature)
 
-    def update_upgrade(self, update: Update, context: CallbackContext):
-        self._logger.info("sto per aggiornare il sistema")
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Sto aggiornando le dipendenze')
-        subprocess.call("sudo apt-get update", shell=True)
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Sto aggiornando i pacchetti')
-        subprocess.call("sudo apt-get upgrade -y", shell=True)
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Sto rimuovendo i pacchetti inutilizzati')
-        subprocess.call("sudo apt-get autoremove -y", shell=True)
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text='Aggiornamento concluso')
+    def system_info(self, update: Update, context: CallbackContext):
+        self._logger.info('Ti dico le informazioni di sistema')
+        pretty_sys_info = self._automation.system_info().format_pretty()
+        context.bot.send_message(chat_id=update.effective_chat.id, text=pretty_sys_info)
 
     def ecu_check(self, update: Update, context: CallbackContext):
         self._logger.info("verifico lo stato della centralina")

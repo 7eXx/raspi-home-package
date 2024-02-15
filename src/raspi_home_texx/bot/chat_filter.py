@@ -12,7 +12,7 @@ class ChatFilter(MessageFilter):
     __list_id = None
 
     def __init__(self, list_id: List[int]):
-        super(self.__class__, self).__init__()
+        super().__init__()
         self.__logger = get_console_logger(self.__class__.__name__)
         self.__list_id = list_id
 
@@ -42,4 +42,4 @@ class ChatFilter(MessageFilter):
         self.__logger.warning("XX Access Denied for this bot XX "
                               "your username: " + user.username + ", your chat id: " + str(user.id))
         file_logger.write(
-            "acced denied from: username {0}, chat_id {1}".format(user.username, str(user.id)))
+            "access denied from: username {0}, chat_id {1}".format(user.username, str(user.id)))

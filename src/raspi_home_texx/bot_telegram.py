@@ -76,7 +76,6 @@ class _BotTelegram(BotTelegram):
             CommandCallback(self.__commands.CIAO, self.__chat_handler.ciao),
             CommandCallback(self.__commands.START, self.__chat_handler.start),
             CommandCallback(self.__commands.HELP, self.__chat_handler.help),
-            CommandCallback(self.__commands.REBOOT, self.__chat_handler.reboot),
             CommandCallback(self.__commands.UPTIME, self.__chat_handler.uptime),
             CommandCallback(self.__commands.TEMPERATURE, self.__chat_handler.temperature_cpu),
             CommandCallback(self.__commands.SYSTEM_INFO, self.__chat_handler.system_info),

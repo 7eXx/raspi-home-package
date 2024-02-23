@@ -33,13 +33,6 @@ class ChatHandler:
         self._logger.info("lista comandi per help")
         context.bot.send_message(chat_id=update.effective_chat.id, text=self._commands.get_command_list())
 
-    def reboot(self, update: Update, context: CallbackContext):
-        self._logger.info('sto per riavviare')
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=emoji.emojize('sto riavviando :zzz:', use_aliases=True))
-        time.sleep(5)
-        subprocess.call("sudo reboot", shell=True)
-
     def uptime(self, update: Update, context: CallbackContext):
         self._logger.info("informazioni uptime")
         out_mess = subprocess.getoutput("uptime")

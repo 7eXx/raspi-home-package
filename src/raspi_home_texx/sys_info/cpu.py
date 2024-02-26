@@ -18,7 +18,7 @@ class Cpu(_BaseSysInfo):
         if platform.system() == "Linux":
             try:
                 with io.open(self.__sensor_file, 'r') as f:
-                    self.temperature = float(f.read().strip()) / 1000
+                    self.temperature = round(float(f.read().strip()) / 1000, 2)
             except FileNotFoundError as err:
                 pass
 

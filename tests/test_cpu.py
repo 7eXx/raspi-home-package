@@ -15,13 +15,27 @@ class TestCpu(unittest.TestCase):
         # Set up mock file content and open function for Linux platform
         mock_io_open.return_value.__enter__ = lambda s: s
         mock_io_open.return_value.__exit__ = Mock()
-        mock_io_open.return_value.read.return_value = '50000\n'  # Assuming a temperature value of 50.000°C
+        mock_io_open.return_value.read.return_value = '41234\n'  # Assuming a temperature value of 50.000°C
 
         # Create a Cpu instance on Linux
         cpu_linux = Cpu()
 
         # Check if the temperature is correctly set
-        self.assertEqual(cpu_linux.temperature, 50.0)
+        self.assertEqual(cpu_linux.temperature, 41.23)
+
+    @patch('platform.system', return_value='Linux')
+    @patch('io.open', create=True)
+    def test_init_linux(self, mock_io_open, mock_platform_system):
+        # Set up mock file content and open function for Linux platform
+        mock_io_open.return_value.__enter__ = lambda s: s
+        mock_io_open.return_value.__exit__ = Mock()
+        mock_io_open.return_value.read.return_value = '41237\n'  # Assuming a temperature value of 50.000°C
+
+        # Create a Cpu instance on Linux
+        cpu_linux = Cpu()
+
+        # Check if the temperature is correctly set
+        self.assertEqual(cpu_linux.temperature, 41.24)
 
     @patch('platform.system', return_value='Windows')
     def test_init_windows(self, mock_platform_system):

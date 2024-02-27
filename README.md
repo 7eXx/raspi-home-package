@@ -14,5 +14,5 @@ pip install -i https://test.pypi.org/simple/ raspi_home_texx
 ```
 Install from official **PyPi**
 ```
-pip install system_info_texx
+pip install raspi_home_texx
 ```

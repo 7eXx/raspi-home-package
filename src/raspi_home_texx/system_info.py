@@ -18,6 +18,7 @@ class SystemInfo(ABC):
 
 class SimpleSystemInfo(SystemInfo):
     def __init__(self):
+        self.datetime = "01-03-2024 10:11:32"
         self.cpu = Cpu()
         self.memory = Memory()
         self.disk = Disk()
@@ -26,7 +27,11 @@ class SimpleSystemInfo(SystemInfo):
         return f'{{"cpu": {self.cpu.serialize()}, "memory": {self.memory.serialize()}, "disk": {self.disk.serialize()}}}'
 
     def format_pretty(self) -> str:
-        output = self.cpu.format_pretty()
+        output = "System Info: \n"
+        output += "--------------------------------------------\n"
+        output += "Datetime : " + self.datetime + "\n"
+        output += "--------------------------------------------\n"
+        output += self.cpu.format_pretty()
         output += "--------------------------------------------\n"
         output += self.memory.format_pretty()
         output += "--------------------------------------------\n"

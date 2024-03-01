@@ -12,6 +12,7 @@ class Cpu(_BaseSysInfo):
     __sensor_file = '/sys/class/thermal/thermal_zone0/temp'
 
     def __init__(self) -> None:
+        super().__init__()
         self.percentage = psutil.cpu_percent()
         self.temperature = 0
 

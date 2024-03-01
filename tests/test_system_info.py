@@ -35,7 +35,6 @@ class TestSimpleSystemInfo(unittest.TestCase):
         self.mock_memory.serialize.assert_called_once()
         self.mock_disk.serialize.assert_called_once()
 
-    # TODO: make test for pretty format
     def test_format_pretty(self):
         self.mock_cpu.format_pretty.return_value = "CPU Details\n"
         self.mock_memory.format_pretty.return_value = "Memory Details\n"

@@ -12,6 +12,7 @@ class TestSimpleSystemInfo(unittest.TestCase):
 
         # Create a SimpleSystemInfo instance with the mock objects
         self.system_info = SimpleSystemInfo()
+        self.system_info.datetime = "01-03-2024 11:11:23"
         self.system_info.cpu = self.mock_cpu
         self.system_info.memory = self.mock_memory
         self.system_info.disk = self.mock_disk
@@ -26,7 +27,7 @@ class TestSimpleSystemInfo(unittest.TestCase):
         result = self.system_info.serialize()
 
         # Check if the result matches the expected JSON string
-        expected_result = '{"cpu": {"cpu_info": "mocked"}, "memory": {"memory_info": "mocked"}, "disk": {"disk_info": "mocked"}}'
+        expected_result = '{"datetime": "01-03-2024 11:11:23", "cpu": {"cpu_info": "mocked"}, "memory": {"memory_info": "mocked"}, "disk": {"disk_info": "mocked"}}'
         self.assertEqual(result, expected_result)
 
         # Check if the serialize methods of Cpu, Memory, and Disk were called
@@ -42,7 +43,11 @@ class TestSimpleSystemInfo(unittest.TestCase):
 
         formatted_result = self.system_info.format_pretty()
         # Add your assertion here based on the expected formatted result
-        expected_result = ("CPU Details\n"
+        expected_result = ("System Info: \n"
+                           "--------------------------------------------\n"
+                           "\"datetime\" : \"01-03-2024 11:11:23\"\n"
+                           "--------------------------------------------\n"
+                           "CPU Details\n"
                            "--------------------------------------------\n"
                            "Memory Details\n"
                            "--------------------------------------------\n"

@@ -1,9 +1,11 @@
+import datetime
 import json
 from abc import ABC, abstractmethod
 
 from .sys_info.cpu import Cpu
 from .sys_info.disk import Disk
 from .sys_info.memory import Memory
+from .sys_info.datetime_builder import DatetimeStringBuilder
 
 
 class SystemInfo(ABC):
@@ -18,18 +20,18 @@ class SystemInfo(ABC):
 
 class SimpleSystemInfo(SystemInfo):
     def __init__(self):
-        self.datetime = "01-03-2024 10:11:32"
+        self.datetime = DatetimeStringBuilder().now()
         self.cpu = Cpu()
         self.memory = Memory()
         self.disk = Disk()
 
     def serialize(self) -> str:
-        return f'{{"cpu": {self.cpu.serialize()}, "memory": {self.memory.serialize()}, "disk": {self.disk.serialize()}}}'
+        return f'{{"datetime": "{self.datetime}", "cpu": {self.cpu.serialize()}, "memory": {self.memory.serialize()}, "disk": {self.disk.serialize()}}}'
 
     def format_pretty(self) -> str:
         output = "System Info: \n"
         output += "--------------------------------------------\n"
-        output += "Datetime : " + self.datetime + "\n"
+        output += f'"datetime" : "{self.datetime}"' + "\n"
         output += "--------------------------------------------\n"
         output += self.cpu.format_pretty()
         output += "--------------------------------------------\n"

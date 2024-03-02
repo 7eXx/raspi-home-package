@@ -7,6 +7,7 @@ from .base_sys_info import _BaseSysInfo
 
 class Memory(_BaseSysInfo):
     def __init__(self) -> None:
+        super().__init__()
         memory = psutil.virtual_memory()
 
         self.unit = "MB"

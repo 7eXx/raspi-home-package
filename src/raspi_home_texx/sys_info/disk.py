@@ -7,6 +7,7 @@ from .base_sys_info import _BaseSysInfo
 
 class Disk(_BaseSysInfo):
     def __init__(self, unit="GB") -> None:
+        super().__init__()
         disk_usage = psutil.disk_usage("/")
 
         if unit != "GB" and unit != "MB" and unit != "KB":

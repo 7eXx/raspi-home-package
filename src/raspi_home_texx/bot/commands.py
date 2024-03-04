@@ -14,7 +14,6 @@ class Commands:
     CIAO = "ciao"
     START = "start"
     HELP = "help"
-    REBOOT = "reboot"
     UPTIME = "uptime"
     SEND_LOG = "send_log"
     CLEAR_LOG = "clear_log"
@@ -36,7 +35,6 @@ class Commands:
             self.CIAO: "saluta il bot",
             self.START: "avvia il bot e lista comandi",
             self.HELP: "lista dei comandi",
-            self.REBOOT: "riavvia il bot allarme",
             self.UPTIME: "tempo totale di avvio",
             self.SEND_LOG: "invia il log degli errori/allarmi",
             self.CLEAR_LOG: "elimina e pulisci il file log",

@@ -1,6 +1,6 @@
 
 from telegram import KeyboardButton, ReplyKeyboardMarkup
-from .chat_handler import  ChatHandler
+from .chat_handler import ChatHandler
 
 
 class CustomKeyboardBuilder:

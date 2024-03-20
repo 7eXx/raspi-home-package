@@ -7,17 +7,20 @@ from telegram.ext import CallbackContext
 from .. import get_console_logger, file_logger
 from .commands import Commands
 from ..automation import Automation
+from .custom_keyboard_builder import CustomKeyboardBuilder
 
 
 class ChatHandler:
     _commands = None
     _automation = None
     _logger = None
+    _custom_keyboard = None
 
     def __init__(self, commands: Commands, automation: Automation):
         self._commands = commands
         self._automation = automation
         self._logger = get_console_logger(self.__class__.__name__)
+        self._custom_keyboard = CustomKeyboardBuilder(self)
 
     def ciao(self, update: Update, context: CallbackContext):
         self._logger.info("ricevuto il saluto")

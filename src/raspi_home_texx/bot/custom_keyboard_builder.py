@@ -47,4 +47,4 @@ class CustomKeyboardBuilder:
             [self.ecu_check_btn, self.gate_check_btn]
         ]
 
-        return InlineKeyboardMarkup(keyboard=keyboard)
+        return InlineKeyboardMarkup(keyboard)

@@ -12,6 +12,8 @@ from telegram import Bot
 from telegram.error import BadRequest
 from telegram.ext import Updater, CommandHandler
 
+from .bot.custom_keyboard_builder import CustomKeyboardBuilder
+
 
 class BotTelegram(ABC):
     _logger = None
@@ -98,9 +100,10 @@ class _BotTelegram(BotTelegram):
         self.__command_callbacks_auxiliary.extend(command_callbacks)
 
     def send_message_to_list(self, msg: str):
+        custom_keyboard = CustomKeyboardBuilder(self.__chat_handler).build()
         for chat_id in self.__list_id:
             try:
-                self.__bot.send_message(chat_id=chat_id, text=msg)
+                self.__bot.send_message(chat_id=chat_id, text=msg, reply_markup=custom_keyboard)
             except BadRequest as err:
                 self._logger.exception("error on send message: " + err.__str__())
                 file_logger.write("Error on send message to: " + str(chat_id))

@@ -108,6 +108,7 @@ class Automation(ABC):
         self._gate_switch_pin.on()
         time.sleep(0.5)
         self._gate_switch_pin.off()
+        time.sleep(0.3)
 
         return self.is_gate_open()
 

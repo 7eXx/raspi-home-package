@@ -3,7 +3,7 @@ from .chat_handler import ChatHandler
 
 
 class SimpleKeyboardBuilder:
-    ecu_gate_btn = None
+    ecu_toggle_btn = None
     gate_toggle_btn = None
 
     ecu_check_btn = None

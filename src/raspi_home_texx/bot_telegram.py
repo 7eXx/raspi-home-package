@@ -8,11 +8,11 @@ from .automation import Automation
 from .bot.chat_handler import ChatHandler
 from .bot.chat_filter import ChatFilter
 from .bot.commands import CommandCallback, Commands
-from telegram import Bot
+from telegram import Bot, ReplyKeyboardMarkup
 from telegram.error import BadRequest
 from telegram.ext import Updater, CommandHandler
 
-from .bot.custom_keyboard_builder import CustomKeyboardBuilder
+from .bot.custom_keyboard_builder import SimpleKeyboardBuilder
 
 
 class BotTelegram(ABC):
@@ -31,6 +31,7 @@ class _BotTelegram(BotTelegram):
     __bot: Bot = None
     __updater: Updater = None
     __command_callbacks_auxiliary: [CommandCallback] = []
+    __custom_keyboard: ReplyKeyboardMarkup = None
 
     __automation: Automation = None
     __commands: Commands = None
@@ -44,6 +45,9 @@ class _BotTelegram(BotTelegram):
         # create the bot
         self.__bot = Bot(token=token)
         self.__updater = Updater(token=token)
+
+    def set_custom_keyboard(self, custom_keyboard: ReplyKeyboardMarkup):
+        self.__custom_keyboard = custom_keyboard
 
     def set_automation_and_bind_alarm(self, automation: Automation):
         self.__automation = automation
@@ -100,10 +104,9 @@ class _BotTelegram(BotTelegram):
         self.__command_callbacks_auxiliary.extend(command_callbacks)
 
     def send_message_to_list(self, msg: str):
-        custom_keyboard = CustomKeyboardBuilder(self.__chat_handler).build()
         for chat_id in self.__list_id:
             try:
-                self.__bot.send_message(chat_id=chat_id, text=msg, reply_markup=custom_keyboard)
+                self.__bot.send_message(chat_id=chat_id, text=msg, reply_markup=self.__custom_keyboard)
             except BadRequest as err:
                 self._logger.exception("error on send message: " + err.__str__())
                 file_logger.write("Error on send message to: " + str(chat_id))
@@ -149,17 +152,22 @@ class AbstractBotTelegramBuilder(ABC):
         chat_handler = self.create_handler(commands, self._automation)
         chat_filter = self.create_chat_filter(self._list_id)
         command_callbacks = self.create_command_callbacks(commands, chat_handler)
+        custom_keyboard = self.create_custom_keyboard(chat_handler)
 
         bot = _BotTelegram(self._token, self._list_id)
         bot.set_automation_and_bind_alarm(self._automation)
         bot.set_commands(commands)
         bot.set_chat_handler(chat_handler)
         bot.set_chat_filter(chat_filter)
+        bot.set_custom_keyboard(custom_keyboard)
         bot.append_command_callbacks(command_callbacks)
 
         bot.register_handlers_and_start()
 
         return bot
+
+    def create_custom_keyboard(self, chat_handler: ChatHandler) -> ReplyKeyboardMarkup:
+        return SimpleKeyboardBuilder(chat_handler).build()
 
     @abstractmethod
     def create_commands(self, name: str) -> Commands:

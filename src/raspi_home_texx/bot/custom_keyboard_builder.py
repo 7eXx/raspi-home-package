@@ -1,9 +1,8 @@
-import emoji
 from telegram import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 from .chat_handler import ChatHandler
 
 
-class CustomKeyboardBuilder:
+class SimpleKeyboardBuilder:
     ecu_gate_btn = None
     gate_toggle_btn = None
 

@@ -1,3 +1,4 @@
+build~=1.2.2
 psutil~=5.9
 gpiozero~=1.6
 python-telegram-bot~=13.7

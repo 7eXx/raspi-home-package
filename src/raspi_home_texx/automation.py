@@ -16,17 +16,20 @@ class Automation(ABC):
     _gate_switch_pin: DigitalOutputDevice
     _gate_stop_pin: DigitalOutputDevice
 
+    _env_info: EnvironmentInfo
+
     _alarm_observers: []
 
     def bind_alarm_to(self, callback):
         self._alarm_observers.append(callback)
 
     def serialize(self) -> str:
-        output = f'{{ {self.__str_alarm_status()}, '
-        output += f'{self.__str_ecu_status()}, '
-        output += f'{self.__str_gate_status()}, '
-        output += f'"systemInfo": {self.system_info().serialize()}, '
-        output += f'"environment: {self.environment_info().serialize()} }}"'
+        output = f'{{ {self.__str_alarm_status()}'
+        output += f', {self.__str_ecu_status()}'
+        output += f', {self.__str_gate_status()}'
+        output += f', "systemInfo": {self.system_info().serialize()}'
+        output += f', "environmentInfo": {self._env_info.serialize()}'
+        output += f'"{self.others_serialization()} }}"'
 
         return output
 
@@ -46,14 +49,14 @@ class Automation(ABC):
     @abstractmethod
     def temperature(self) -> (float, str):
         pass
-    
-    @abstractmethod
-    def environment_info(self) -> EnvironmentInfo:
-        pass
 
     @abstractmethod
     def system_info(self) -> SystemInfo:
         pass
+
+    @abstractmethod
+    def others_serialization(self) -> str:
+        return ""
 
     # check if alarm is ringing
     def is_alarm_ringing(self) -> bool:

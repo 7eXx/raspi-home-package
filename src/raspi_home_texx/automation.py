@@ -24,12 +24,12 @@ class Automation(ABC):
         self._alarm_observers.append(callback)
 
     def serialize(self) -> str:
-        output = f'{{ {self.__str_alarm_status()}'
+        output = f'{{{self.__str_alarm_status()}'
         output += f', {self.__str_ecu_status()}'
         output += f', {self.__str_gate_status()}'
         output += f', "systemInfo": {self.system_info().serialize()}'
         output += f', "environmentInfo": {self._env_info.serialize()}'
-        output += f'"{self.others_serialization()} }}"'
+        output += f'"{self.others_serialization()}}}"'
 
         return output
 

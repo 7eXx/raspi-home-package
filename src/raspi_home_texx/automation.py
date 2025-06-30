@@ -29,7 +29,7 @@ class Automation(ABC):
         output += f', {self.__str_gate_status()}'
         output += f', "systemInfo": {self.system_info().serialize()}'
         output += f', "environmentInfo": {self._env_info.serialize()}'
-        output += f'"{self.others_serialization()}}}"'
+        output += f'{self.others_serialization()}}}'
 
         return output
 

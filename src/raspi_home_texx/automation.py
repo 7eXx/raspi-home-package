@@ -54,7 +54,6 @@ class Automation(ABC):
     def system_info(self) -> SystemInfo:
         pass
 
-    @abstractmethod
     def others_serialization(self) -> str:
         return ""
 

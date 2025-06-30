@@ -2,6 +2,7 @@ import time
 
 from abc import ABC, abstractmethod
 from gpiozero import DigitalInputDevice, DigitalOutputDevice
+from .environment_info import EnvironmentInfo
 from .system_info import SystemInfo
 
 
@@ -24,7 +25,8 @@ class Automation(ABC):
         output = f'{{ {self.__str_alarm_status()}, '
         output += f'{self.__str_ecu_status()}, '
         output += f'{self.__str_gate_status()}, '
-        output += f'"systemInfo": {self.system_info().serialize()} }}'
+        output += f'"systemInfo": {self.system_info().serialize()}, '
+        output += f'"environment: {self.environment_info().serialize()} }}"'
 
         return output
 
@@ -43,6 +45,10 @@ class Automation(ABC):
 
     @abstractmethod
     def temperature(self) -> (float, str):
+        pass
+    
+    @abstractmethod
+    def environment_info(self) -> EnvironmentInfo:
         pass
 
     @abstractmethod

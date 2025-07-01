@@ -16,9 +16,12 @@ class Automation(ABC):
     _gate_switch_pin: DigitalOutputDevice
     _gate_stop_pin: DigitalOutputDevice
 
-    _env_info: EnvironmentInfo
+    _env_info: EnvironmentInfo = None
 
     _alarm_observers: []
+
+    def set_environment_info(self, env_info: EnvironmentInfo):
+        self._env_info = env_info
 
     def bind_alarm_to(self, callback):
         self._alarm_observers.append(callback)
@@ -28,7 +31,12 @@ class Automation(ABC):
         output += f', {self.__str_ecu_status()}'
         output += f', {self.__str_gate_status()}'
         output += f', "systemInfo": {self.system_info().serialize()}'
-        output += f', "environmentInfo": {self._env_info.serialize()}'
+        # if environment info is set, serialize it
+        if self._env_info is not None:
+            # check if environment info is an instance of EnvironmentInfo
+            if isinstance(self._env_info, EnvironmentInfo):
+                # and serialize it
+                output += f', "environmentInfo": {self._env_info.serialize()}'
         output += f'{self.others_serialization()}}}'
 
         return output

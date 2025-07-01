@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from .sys_info.cpu import Cpu
 from .sys_info.disk import Disk
 from .sys_info.memory import Memory
-from .sys_info.datetime_builder import DatetimeStringBuilder
+from .datetime_builder import DatetimeStringBuilder
 
 
 class SystemInfo(ABC):

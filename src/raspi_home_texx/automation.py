@@ -23,6 +23,9 @@ class Automation(ABC):
     def set_environment_info(self, env_info: EnvironmentInfo):
         self._env_info = env_info
 
+    def environment_info(self) -> EnvironmentInfo:
+        return self._env_info
+
     def bind_alarm_to(self, callback):
         self._alarm_observers.append(callback)
 

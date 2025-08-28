@@ -13,5 +13,8 @@ class EnvironmentInfo(ABC):
     def format_pretty(self) -> str:
         pass
 
+    def get_status(self) -> str:
+        return self._status
+
     def set_status(self, status) -> None:
         self._status = status

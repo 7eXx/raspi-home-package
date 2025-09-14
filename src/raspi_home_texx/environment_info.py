@@ -7,6 +7,10 @@ class EnvironmentInfo(ABC):
         self._timestamp = "n/a"
 
     @abstractmethod
+    def to_dict(self) -> dict:
+        pass
+
+    @abstractmethod
     def serialize(self) -> str:
         pass
 

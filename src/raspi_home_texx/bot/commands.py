@@ -32,21 +32,21 @@ class Commands:
     def __init__(self, bot_name: str):
         self.__bot_name = bot_name
         self._descriptions = {
-            self.CIAO: "saluta il bot",
-            self.START: "avvia il bot e lista comandi",
-            self.HELP: "lista dei comandi",
-            self.UPTIME: "tempo totale di avvio",
-            self.SEND_LOG: "invia il log degli errori/allarmi",
-            self.CLEAR_LOG: "elimina e pulisci il file log",
-            self.TEMPERATURE: "monitor temperatura",
-            self.SYSTEM_INFO: "informazioni di sistema",
-            self.ECU_CHECK: "visualizza lo stato della centralina",
-            self.ALARM_CHECK: "verifica se allarme e' scattato",
-            self.ECU_TOGGLE: "cambia lo stato della centralina",
-            self.ANTI_PANIC: "attiva la funzione antipanico della centralina",
-            self.GATE_CHECK: "verifica lo stato del cancello",
-            self.GATE_TOGGLE: "funzione apertura/chiusura del cancello",
-            self.GATE_STOP: "blocca il cancello",
+            Commands.CIAO: "saluta il bot",
+            Commands.START: "avvia il bot e lista comandi",
+            Commands.HELP: "lista dei comandi",
+            Commands.UPTIME: "tempo totale di avvio",
+            Commands.SEND_LOG: "invia il log degli errori/allarmi",
+            Commands.CLEAR_LOG: "elimina e pulisci il file log",
+            Commands.TEMPERATURE: "monitor temperatura",
+            Commands.SYSTEM_INFO: "informazioni di sistema",
+            Commands.ECU_CHECK: "visualizza lo stato della centralina",
+            Commands.ALARM_CHECK: "verifica se allarme e' scattato",
+            Commands.ECU_TOGGLE: "cambia lo stato della centralina",
+            Commands.ANTI_PANIC: "attiva la funzione antipanico della centralina",
+            Commands.GATE_CHECK: "verifica lo stato del cancello",
+            Commands.GATE_TOGGLE: "funzione apertura/chiusura del cancello",
+            Commands.GATE_STOP: "blocca il cancello",
         }
 
     def _add_command(self, command: str, description: str):

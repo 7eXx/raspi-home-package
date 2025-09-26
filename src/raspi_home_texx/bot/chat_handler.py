@@ -1,6 +1,5 @@
 import subprocess
 import emoji
-import time
 
 from telegram import Update
 from telegram.ext import CallbackContext

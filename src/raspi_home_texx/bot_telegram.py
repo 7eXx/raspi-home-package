@@ -7,10 +7,10 @@ from . import get_console_logger, file_logger
 from .automation import Automation
 from .bot.chat_handler import ChatHandler
 from .bot.chat_filter import ChatFilter
-from .bot.commands import CommandCallback, Commands
-from telegram import Bot, ReplyKeyboardMarkup
+from .bot.commands import CommandCallback, Commands, MessageCallback
+from telegram import Bot, ReplyKeyboardMarkup, Update
 from telegram.error import BadRequest
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackContext
 
 from .bot.custom_keyboard_builder import SimpleKeyboardBuilder
 
@@ -30,7 +30,8 @@ class _BotTelegram(BotTelegram):
     __list_id: List[int] = None
     __bot: Bot = None
     __updater: Updater = None
-    __command_callbacks_auxiliary: [CommandCallback] = []
+    __command_callbacks_auxiliary: list[CommandCallback] = []
+    __message_callbacks_auxiliary: list[MessageCallback] = []
     __custom_keyboard: ReplyKeyboardMarkup = None
 
     __automation: Automation = None
@@ -63,19 +64,21 @@ class _BotTelegram(BotTelegram):
         self.__chat_filter = chat_filter
 
     def register_handlers_and_start(self):
-        # registers all handlers and filters
-        self.__register_handlers()
+        # register commands handlers
+        self.__register_command_handlers()
+        # register messages handlers
+        self.__register_message_handler()
         # start polling
         self.__updater.start_polling()
 
-    def __register_handlers(self):
+    def __register_command_handlers(self):
         # retrieve all callback functions
         callback_commands = self.__retrieve_callback_commands()
         # register all callbacks
         for command in callback_commands:
             command_handler = CommandHandler(
-                command=command.command,
-                callback=command.callback,
+                command=command.get_commands(),
+                callback=command.get_callback(),
                 filters=self.__chat_filter)
             self.__updater.dispatcher.add_handler(command_handler)
 
@@ -102,8 +105,23 @@ class _BotTelegram(BotTelegram):
 
         return command_callbacks
 
+    def __register_message_handler(self):
+        self.__updater.dispatcher.add_handler(MessageHandler(filters=self.__chat_filter, callback=self.__handle_message))
+
+    def __handle_message(self, update: Update, context: CallbackContext):
+        text = update.message.text
+        for message_callback in self.__message_callbacks_auxiliary:
+            if message_callback.get_message() == text:
+                callback = message_callback.get_callback()
+                callback(update, context)
+
+                return
+
     def append_command_callbacks(self, command_callbacks: [CommandCallback]):
         self.__command_callbacks_auxiliary.extend(command_callbacks)
+
+    def append_message_callbacks(self, message_callbacks: [MessageCallback]):
+        self.__message_callbacks_auxiliary.extend(message_callbacks)
 
     def send_message_to_list(self, msg: str):
         for chat_id in self.__list_id:
@@ -153,7 +171,8 @@ class AbstractBotTelegramBuilder(ABC):
         commands = self.create_commands(self._name)
         chat_handler = self.create_handler(commands, self._automation)
         chat_filter = self.create_chat_filter(self._list_id)
-        command_callbacks = self.create_command_callbacks(commands, chat_handler)
+        command_callbacks = self.create_command_callbacks(chat_handler)
+        message_callbacks = self.create_message_callbacks(chat_handler)
         custom_keyboard = self.create_custom_keyboard(chat_handler)
 
         bot = _BotTelegram(self._token, self._list_id)
@@ -163,6 +182,7 @@ class AbstractBotTelegramBuilder(ABC):
         bot.set_chat_filter(chat_filter)
         bot.set_custom_keyboard(custom_keyboard)
         bot.append_command_callbacks(command_callbacks)
+        bot.append_message_callbacks(message_callbacks)
 
         bot.register_handlers_and_start()
 
@@ -184,5 +204,9 @@ class AbstractBotTelegramBuilder(ABC):
         pass
 
     @abstractmethod
-    def create_command_callbacks(self, commands: Commands, chat_handler: ChatHandler) -> [CommandCallback]:
+    def create_command_callbacks(self, chat_handler: ChatHandler) -> list[CommandCallback]:
+        pass
+
+    @abstractmethod
+    def create_message_callbacks(self, chat_handler: ChatHandler) -> list[MessageCallback]:
         pass

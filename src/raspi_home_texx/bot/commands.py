@@ -1,13 +1,35 @@
+from abc import ABC
 from typing import Callable, Dict
 
 
-class CommandCallback:
-    command: str = None
-    callback: Callable = None
+class _BaseCallback(ABC):
+    _literal: str = None
+    _callback: Callable = None
+
+    def __init__(self, literal: str, callback: Callable):
+        self._literal = literal
+        self._callback = callback
+
+    def get_callback(self):
+        return self._callback
+
+
+class CommandCallback(_BaseCallback):
 
     def __init__(self, command: str, callback: Callable):
-        self.command = command
-        self. callback = callback
+        super().__init__(command, callback)
+
+    def get_commands(self):
+        return self._literal
+
+
+class MessageCallback(_BaseCallback):
+
+    def __init__(self, message: str, callback: Callable,):
+        super().__init__(message, callback)
+
+    def get_message(self):
+        return self._literal
 
 
 class Commands:

@@ -80,6 +80,9 @@ class Commands:
             str_list += key + " - " + value + "\n"
 
         return str_list
+    
+    def get_descriptions_dict(self) -> Dict[str, str]:
+        return self._descriptions
 
     def is_command_in_list(self, command):
         for key, value in list(self._descriptions.items()):
